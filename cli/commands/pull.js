@@ -32,7 +32,7 @@ export async function pullRepo(repoName) {
     return;
   }
 
-  const latestCommit = data.commits?.[0];
+  const latestCommit = data.commits?.[data.commits.length - 1];
   if (!latestCommit) {
     console.log(chalk.yellow('⚠️ No commits found in repo.'));
     return;
@@ -60,11 +60,7 @@ export async function pullRepo(repoName) {
     const mimeType = mime.lookup(file.path);
     const isText = mimeType && mimeType.startsWith('text/');
 
-    if (isText) {
-      await fs.writeFile(file.path, buffer.toString('utf-8')); // text: decode to string
-    } else {
-      await fs.writeFile(file.path, buffer); // binary: write as-is
-    }
+    await fs.writeFile(file.path, buffer); // Always write as Buffer
 
     console.log(chalk.green(`✅ Pulled file: ${file.path}`));
   }
