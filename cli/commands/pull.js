@@ -48,19 +48,9 @@ export async function pullRepo(repoName) {
       continue;
     }
 
-    let buffer = Buffer.from(file.content, 'base64'); // ✅ decode
-    if (buffer.length >= 3 && buffer[0] === 0xef && buffer[1] === 0xbb && buffer[2] === 0xbf) {
-      buffer = buffer.slice(3); // ✅ strip BOM if present
-    }
-
-    const objectPath = path.join(objectsPath, file.hash);
-    await fs.writeFile(objectPath, buffer); // save in .groot/objects
-
-    // Detect if it's a text file
-    const mimeType = mime.lookup(file.path);
-    const isText = mimeType && mimeType.startsWith('text/');
-
-    await fs.writeFile(file.path, buffer); // Always write as Buffer
+    // Always decode and write as buffer to preserve exact file bytes
+    const buffer = Buffer.from(file.content, 'base64');
+    await fs.writeFile(file.path, buffer);
 
     console.log(chalk.green(`✅ Pulled file: ${file.path}`));
   }
