@@ -229,6 +229,8 @@ export default function App() {
       if (res.ok) {
         setSignupUser('');
         setSignupPass('');
+        if (data.token) setToken(data.token); // Log in immediately if token is returned
+        setTab('Repo: List'); // Switch to repo list after signup
       }
     } catch (error) {
       setResult('Network error occurred');
@@ -250,6 +252,7 @@ export default function App() {
         setResult('Successfully signed in!');
         setLoginUser('');
         setLoginPass('');
+        setTab('Repo: List'); // Switch to repo list after login
       } else {
         setResult(data.error || data.message);
       }
@@ -261,6 +264,7 @@ export default function App() {
   function handleLogout() {
     clearToken();
     setResult('Successfully signed out!');
+    setTab('User: Login'); // Switch to sign-in after logout
   }
 
   async function handleDeleteUser() {
@@ -274,6 +278,7 @@ export default function App() {
       if (res.ok) {
         clearToken();
         setResult('Account deleted successfully!');
+        setTab('User: Login'); // Switch to sign-in after account deletion
       } else {
         setResult(data.error || data.message);
       }
@@ -298,6 +303,7 @@ export default function App() {
       setResult(res.ok ? 'Repository created successfully!' : data.error || data.message);
       if (res.ok) {
         setNewRepo('');
+        setTab('Repo: List'); // Switch to repo list after repo creation
       }
     } catch (error) {
       setResult('Network error occurred');
@@ -524,16 +530,19 @@ export default function App() {
                 <h3 className="text-lg font-semibold text-slate-800">Authentication</h3>
               </div>
               {/* Responsive grid for auth tabs */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 min-w-0">
-                {authTabs.map((t) => {
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                {TABS.filter(t => t.category === 'auth' && (
+                  (!isLoggedIn && (t.id === 'User: Signup' || t.id === 'User: Login')) ||
+                  (isLoggedIn && (t.id === 'User: Logout' || t.id === 'User: Delete'))
+                )).map((t) => {
                   const IconComponent = t.icon;
                   return (
                     <button
                       key={t.id}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 min-w-0 ${
+                      className={`flex items-center gap-3 px-6 py-4 rounded-xl text-base font-semibold transition-all duration-200 ${
                         tab === t.id
-                          ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25 scale-105'
-                          : 'bg-slate-50 text-white hover:bg-slate-100 hover:text-white hover:shadow-md' // Force white text for visibility
+                          ? 'bg-blue-600 text-white shadow-lg scale-105'
+                          : 'bg-slate-50 text-blue-700 hover:bg-blue-100 hover:shadow-md'
                       }`}
                       onClick={() => {
                         setTab(t.id);
@@ -543,7 +552,7 @@ export default function App() {
                         setLogResult(null);
                       }}
                     >
-                      <IconComponent className="w-4 h-4" />
+                      <IconComponent className="w-5 h-5" />
                       <span className="hidden sm:inline">{t.label}</span>
                     </button>
                   );

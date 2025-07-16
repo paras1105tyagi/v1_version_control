@@ -135,5 +135,5 @@ if (fileData[0] === 0xef && fileData[1] === 0xbb && fileData[2] === 0xbf) {
   }
 }
 
-//  showCommitDiff('eae021c539d3f0656298ada376202dd3c57d6a2e');
+
 export default Groot;
