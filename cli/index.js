@@ -9,6 +9,8 @@ import commit from './commands/commit.js';
 import log from './commands/log.js';
 import show from './commands/show.js';
 import { login } from './commands/login.js';
+import logout from './commands/logout.js';
+import listAll from './commands/listall.js';
 
 
 const program = new Command();
@@ -18,6 +20,7 @@ program.command('add <file>').action(add);
 program.command('commit <message>').action(commit);
 program.command('log').action(log);
 program.command('show <commitHash>').action(show);
+program.command('showcommitdifference <commitHash>').action(show);
 program.command('push <repo>').action(async (repo) => {
   await pushRepo(repo);
 });
@@ -32,5 +35,13 @@ program
     await login();
   });
 
-  
+program
+  .command('logout')
+  .description('Logout from Groot backend')
+  .action(async () => {
+    await logout();
+  });
+
+program.command('list all').description('List all repos for the user').action(listAll);
+
 program.parse(process.argv);

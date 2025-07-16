@@ -33,3 +33,13 @@ export const login = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+export const deleteUser = async (req, res) => {
+  try {
+    const user = await User.findOneAndDelete({ _id: req.userId });
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.json({ message: 'User deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

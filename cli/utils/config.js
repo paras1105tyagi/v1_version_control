@@ -16,3 +16,11 @@ export async function getToken() {
     return null;
   }
 }
+
+export async function logoutToken() {
+  try {
+    await fs.unlink(configPath);
+  } catch (e) {
+    // Ignore if file does not exist
+  }
+}

@@ -18,7 +18,8 @@ const commitSchema = new mongoose.Schema({
 const repoSchema = new mongoose.Schema({
   name: { type: String, required: true },
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  commits: [commitSchema]
+  commits: [commitSchema],
+  staging: [fileSchema] // <-- Add this line
 });
 
 export default mongoose.model('Repo', repoSchema);

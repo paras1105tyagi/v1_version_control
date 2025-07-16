@@ -1,0 +1,105 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.groot-diff {
+  background: #222;
+  color: #eee;
+  padding: 12px;
+  border-radius: 6px;
+  font-family: 'Fira Mono', 'Consolas', monospace;
+  font-size: 1em;
+  margin-top: 1em;
+}
+.groot-diff strong {
+  color: #ffd700;
+  display: block;
+  margin-top: 1em;
+}
+.groot-diff span {
+  display: block;
+  white-space: pre-wrap;
+}
+.groot-diff .added {
+  background: #d4fcdc;
+  color: #228b22;
+}
+.groot-diff .removed {
+  background: #ffd6d6;
+  color: #b22222;
+}
+.groot-diff .unchanged {
+  background: inherit;
+  color: #eee;
+}
+.groot-file-content {
+  background: #f4f4f4;
+  color: #222;
+  padding: 8px;
+  border-radius: 4px;
+  font-family: 'Fira Mono', 'Consolas', monospace;
+  margin-bottom: 1em;
+  white-space: pre-wrap;
+}
+
+.groot-log-list {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.groot-log-card {
+  background: #f8f8fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1em;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  font-family: 'Fira Mono', 'Consolas', monospace;
+}
+.groot-log-hash {
+  color: #0074d9;
+  font-family: 'Fira Mono', 'Consolas', monospace;
+  word-break: break-all;
+}
+.groot-log-card strong {
+  color: #333;
+}
