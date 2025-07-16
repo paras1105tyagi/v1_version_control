@@ -65,9 +65,10 @@ export const pushRepo = async (req, res) => {
       if (!fullFile || !fullFile.content) {
         throw new Error(`Missing content for file with hash: ${file.hash}`);
       }
+      // Store as base64, do NOT decode
       return {
         ...file,
-        content: fullFile.content || '', // keep as base64 string
+        content: fullFile.content,
       };
     });
 
@@ -183,3 +184,9 @@ export const diffRepo = async (req, res) => {
   }
   res.json({ diffs });
 };
+
+function isBase64(str) {
+  if (!str || typeof str !== 'string' || str.length % 4 !== 0) return false;
+  const base64Pattern = /^[A-Za-z0-9+/]+={0,2}$/;
+  return base64Pattern.test(str.replace(/\r?\n|\r/g, ''));
+}
