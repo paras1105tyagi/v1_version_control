@@ -333,7 +333,7 @@ export default function App() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${getToken()}`
         },
-        body: JSON.stringify({ fileName: addFileName, content: addFileContent })
+        body: JSON.stringify({ fileName: addFileName, content: btoa(addFileContent) })
       });
       const data = await res.json();
       if (res.ok) {
