@@ -21,7 +21,7 @@ export async function login() {
   const username = await prompt('Username: ');
   const password = await prompt('Password: ');
 
-  const res = await fetch('http://localhost:5000/auth/login', {
+  const res = await fetch('https://v1-version-control.onrender.com/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username, password })

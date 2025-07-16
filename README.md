@@ -11,6 +11,8 @@ A simple, educational version control system inspired by Git, with a CLI, web fr
 - View commit logs and diffs
 - User authentication (login, logout, signup)
 - Web frontend for managing repos and files
+- **Official CLI npm package for global use**
+- **Dockerized backend for easy deployment**
 
 ---
 
@@ -19,66 +21,89 @@ A simple, educational version control system inspired by Git, with a CLI, web fr
 v1_version_control/
   cli/         # Command-line interface
   frontend/    # React web frontend
-  server/      # Node.js/Express backend
+  server/      # Node.js/Express backend (Dockerized)
 ```
 
 ---
 
-## CLI Commands
-Run from the `cli/` directory:
+## 🚀 CLI Usage via npm (groot-vcs-cli)
 
-- `init`                : Initialize a new repository
-- `add <file>`          : Add a file to the staging area
-- `commit <message>`    : Commit staged files with a message
-- `push <repo>`         : Push commits to the remote server
-- `pull <repo>`         : Pull latest commits from the remote server
-- `log`                 : Show commit history
-- `show <commitHash>`   : Show diff for a specific commit
-- `listall`             : List all your repositories
-- `login`               : Log in to your account
-- `logout`              : Log out of your account
+### Install globally:
+```sh
+npm install -g groot-vcs-cli
+```
 
----
+### Usage:
+```sh
+groot <command>
+```
 
-## API Endpoints
-All endpoints are prefixed with `/repo` or `/auth` and run on the backend server (default: `http://localhost:5000`).
+### Example commands:
+- `groot login`                : Log in to your account
+- `groot init`                 : Initialize a new repository
+- `groot add <file>`           : Add a file to the staging area
+- `groot commit <message>`     : Commit staged files with a message
+- `groot push <repo>`          : Push commits to the remote server
+- `groot pull <repo>`          : Pull latest commits from the remote server
+- `groot log`                  : Show commit history
+- `groot show <commitHash>`    : Show diff for a specific commit
+- `groot listall`              : List all your repositories
+- `groot logout`               : Log out of your account
 
-### Auth
-- `POST   /auth/signup`         : Create a new user
-- `POST   /auth/login`          : Log in and receive a token
-- `POST   /auth/logout`         : Log out (client-side only)
-- `DELETE /auth/user`           : Delete your account
-
-### Repo
-- `POST   /repo/`               : Create a new repository
-- `GET    /repo/`               : List your repositories
-- `DELETE /repo/:id`            : Delete a repository
-- `POST   /repo/:name/add-file` : Add (stage) a file to a repo
-- `POST   /repo/:name/commit`   : Commit staged files
-- `POST   /repo/:name/push`     : Push a commit (CLI only)
-- `GET    /repo/:name/pull`     : Pull all commits (with file content)
-- `GET    /repo/:name/log`      : Get commit history
-- `GET    /repo/:name/diff/:commitHash` : Get diff for a commit
+> **Note:** The CLI always uses the official backend API URL. No configuration is needed.
 
 ---
 
-## Web Frontend
-- Start with `npm run dev` in the `frontend/` directory
-- Features:
-  - Sign up, log in, log out
-  - Create, list, and delete repositories
-  - Add files, commit, push, pull
-  - View commit history and diffs
-  - Browse files in latest commit
+## 🐳 Dockerized Backend (Node.js/Express)
+
+- The backend is fully dockerized for easy deployment.
+- Example `Dockerfile` (uses Node 22 Alpine):
+  ```Dockerfile
+  FROM node:22-alpine
+  RUN apk add --no-cache python3 make g++
+  WORKDIR /app
+  COPY package*.json ./
+  RUN npm install
+  COPY . .
+  EXPOSE 5000
+  CMD ["node", "server.js"]
+  ```
+- Add a `.dockerignore` to exclude `node_modules`, `.env`, etc.
+- The server uses environment variables for configuration:
+  - `PORT` (Render sets this automatically)
+  - `MONGODB_URI`
+  - `JWT_SECRET`
+
+### **Deploying to Render:**
+1. Push your code (with Dockerfile) to GitHub.
+2. Create a new Web Service on [Render](https://render.com/), select Docker, and connect your repo.
+3. Set environment variables in the Render dashboard.
+4. Deploy! Render will give you a public API URL (e.g., `https://groot-backend.onrender.com`).
 
 ---
 
-## Getting Started
+## 🌐 Frontend (React + Vite)
+
+- The frontend uses Vite and supports environment variables for the API URL.
+- In `frontend/.env`:
+  ```
+  VITE_API_URL=https://groot-backend.onrender.com
+  ```
+- In your code:
+  ```js
+  const API = import.meta.env.VITE_API_URL;
+  ```
+- Deploy to [Vercel](https://vercel.com/) or [Netlify](https://netlify.com/).
+- Set `VITE_API_URL` in the dashboard for production.
+
+---
+
+## Getting Started (Development)
 1. **Install dependencies** in each subdirectory (`cli/`, `frontend/`, `server/`):
    ```sh
    npm install
    ```
-2. **Start the backend server**:
+2. **Start the backend server** (locally):
    ```sh
    cd server && npm start
    ```

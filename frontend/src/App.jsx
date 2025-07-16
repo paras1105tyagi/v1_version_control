@@ -20,7 +20,7 @@ import {
   AlertTriangle
 } from 'lucide-react';
 
-const API = 'http://localhost:5000';
+const API = import.meta.env.VITE_API_URL;
 
 const TABS = [
   { id: 'User: Signup', label: 'Sign Up', icon: UserPlus, category: 'auth' },

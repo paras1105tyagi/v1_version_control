@@ -9,7 +9,7 @@ export default async function listAll() {
     return;
   }
 
-  const res = await fetch('http://localhost:5000/repo/', {
+  const res = await fetch('https://v1-version-control.onrender.com/repo/', {
     headers: {
       Authorization: `Bearer ${token}`,
     },

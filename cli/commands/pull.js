@@ -12,7 +12,7 @@ export async function pullRepo(repoName) {
     return;
   }
 
-  const res = await fetch(`http://localhost:5000/repo/${repoName}/pull`, {
+  const res = await fetch(`https://v1-version-control.onrender.com/repo/${repoName}/pull`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

@@ -44,7 +44,7 @@ export async function pushRepo(repoName) {
   };
 
   try {
-    const res = await fetch(`http://localhost:5000/repo/${repoName}/push`, {
+    const res = await fetch(`https://v1-version-control.onrender.com/repo/${repoName}/push`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
